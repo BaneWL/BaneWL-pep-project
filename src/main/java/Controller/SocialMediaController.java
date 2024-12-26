@@ -107,15 +107,13 @@ public class SocialMediaController {
             ctx.json(mapper.writeValueAsString(message));
         }
         else{
-            ctx.json(mapper.writeValueAsString(new Message()));
+            ctx.json(mapper.writeValueAsString(new Message())); // Purely for testing
         }
     }
    
     private void updateMessageGivenIdHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
-        //Message message = mapper.readValue(ctx.body(), Message.class);
         String newMessageText = mapper.readValue(ctx.body(), String.class);
-        //Message newMessage = socialMediaService.updateMessageGivenId(Integer.parseInt(ctx.pathParam("message_id")), message);
         Message newMessage = socialMediaService.updateMessageGivenId(Integer.parseInt(ctx.pathParam("message_id")), newMessageText);
         if(newMessage==null){
             ctx.status(400);

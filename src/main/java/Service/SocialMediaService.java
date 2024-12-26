@@ -46,7 +46,6 @@ public class SocialMediaService {
     }
 
     public Message updateMessageGivenId(int id, String newMessageText){
-        //if ((newMessageText.getMessage_text()) == ""){ // Message text is blank
         if (newMessageText == ""){ // Message text is blank
             return null;
         }

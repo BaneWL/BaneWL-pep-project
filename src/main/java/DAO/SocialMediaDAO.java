@@ -109,9 +109,9 @@ public class SocialMediaDAO {
             String sql = "DELETE FROM message WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, id);
-            int test = preparedStatement.executeUpdate();
+            int test = preparedStatement.executeUpdate(); // Purely for testing
             ResultSet rs = preparedStatement.getGeneratedKeys();
-            return new Message(test, 9, rs.toString(), 999999999);
+            return new Message(test, 9, rs.toString(), 999999999); // Purely for testing
             /*if(rs.next()){
                 int deletedMessageId = rs.getInt("message_id");
                 int deletedPostedBy = rs.getInt("posted_by");
