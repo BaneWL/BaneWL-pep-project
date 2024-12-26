@@ -45,12 +45,13 @@ public class SocialMediaService {
         return socialMediaDAO.deleteMessageGivenId(id);
     }
 
-    public Message updateMessageGivenId(Message message, int id){
-        if ((message.getMessage_text()) == ""){ // Message text is blank
+    public Message updateMessageGivenId(int id, String newMessageText){
+        //if ((newMessageText.getMessage_text()) == ""){ // Message text is blank
+        if (newMessageText == ""){ // Message text is blank
             return null;
         }
         // Message length is enforced by database, no need to check on service layer
-        return socialMediaDAO.updateMessageGivenId(id);
+        return socialMediaDAO.updateMessageGivenId(id, newMessageText);
     }
 
     public List<Message> getAllMessagesGivenId(int id){
