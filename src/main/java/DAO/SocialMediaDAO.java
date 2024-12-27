@@ -106,19 +106,22 @@ public class SocialMediaDAO {
     public Message deleteMessageGivenId(int id){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "DELETE FROM message WHERE message_id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            String sql = "SELECT * FROM message WHERE message_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            int test = preparedStatement.executeUpdate(); // Purely for testing
-            ResultSet rs = preparedStatement.getGeneratedKeys();
-            return new Message(test, 9, rs.toString(), 999999999); // Purely for testing
-            /*if(rs.next()){
+            ResultSet rs = preparedStatement.executeQuery();
+            sql = "DELETE FROM message WHERE message_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            if(rs.next()){
                 int deletedMessageId = rs.getInt("message_id");
                 int deletedPostedBy = rs.getInt("posted_by");
                 String deletedMessageText = rs.getString("message_text");
                 long deletedTimePostedEpoch = rs.getLong("time_posted_epoch");
                 return new Message(deletedMessageId, deletedPostedBy, deletedMessageText, deletedTimePostedEpoch);
-            }*/
+            }
         } catch(SQLException e){
             System.out.println(e);
         }
@@ -130,11 +133,13 @@ public class SocialMediaDAO {
         try {
             String sql = "UPDATE message SET message_text = ? WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
             preparedStatement.setString(1, newMessageText);
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
-            ResultSet rs = preparedStatement.getGeneratedKeys();
+            sql = "SELECT * FROM message WHERE message_id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             if(rs.next()){
                 int updatedMessageId = rs.getInt("message_id");
                 int updatedPostedBy = rs.getInt("posted_by");
